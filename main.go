@@ -3,12 +3,25 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/joho/godotenv"
 	openai "github.com/sashabaranov/go-openai"
+	"log"
+	"os"
 )
 
 func main() {
-	client := openai.NewClient("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")
-	content := "안녕~ 반갑게 인사 해줘"
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	apiKey := os.Getenv("API_KEY")
+
+	client := openai.NewClient(apiKey)
+	content := "안녕~ 반갑게 인사 해줘영~"
+	fmt.Println(content)
+
 	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
